@@ -23,7 +23,6 @@ const checkCommentForDelta = (comment) => {
   )
   // this checks for deltas
   if (
-    !!removedBodyHTML.match(/&amp;#8710;|&#8710;|&#916;|&amp;916;|∆|Δ/i) ||
     !!removedBodyHTML.match(/!delta/i) ||
     !!removedBodyHTML.match(/&delta;/i)
   ) {
@@ -77,7 +76,7 @@ const generateHiddenParamsFromDeltaComment = async ({ comment, reddit, botUserna
   // checking for this last allows it to be either the issues above or this one
   if (
     Object.keys(issues).length === 0 &&
-    removeQuotesFromBody(comment.body).length < 50
+    removeQuotesFromBody(comment.body).length < 2
   ) issues.littleText = 1
 
   console.log(`Hidden parameters generated for comment ID ${comment.name}`)
@@ -159,8 +158,8 @@ const generateDeltaBotCommentFromDeltaCommentDEPRECATED = async ({
     }
     // if there are no issues yet, then check for comment length. checking for this
     // last allows it to be either the issues above or this one
-  } else if (removeQuotesFromBody(body).length < 50) {
-    console.log(`BAILOUT body length, ${body.length}, is shorter than 50`)
+  } else if (removeQuotesFromBody(body).length < 2) {
+    console.log(`BAILOUT body length, ${body.length}, is shorter than 2`)
     let text = i18n[locale].noAward.littleText
     issues.littleText = 1
     text = text.replace(/PARENTUSERNAME/g, parentThing.author)
